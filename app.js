@@ -3,6 +3,7 @@ import { App } from "octokit";
 import { createNodeMiddleware } from "@octokit/webhooks";
 import fs from "fs";
 import http from "http";
+import { exec } from "child_process";
 
 dotenv.config();
 
@@ -10,7 +11,6 @@ const appId = process.env.APP_ID;
 const webhookSecret = process.env.WEBHOOK_SECRET;
 const privateKeyPath = process.env.PRIVATE_KEY_PATH;
 const privateKey = fs.readFileSync(privateKeyPath, "utf8");
-const deploymentUrl = process.env.DEPLOYMENT_URL;
 
 const app = new App({
   appId: appId,
@@ -25,16 +25,57 @@ const welcomeMessage = "Thanks for opening a new PR! Please follow our contribut
 const deploymentMessage = (url) => `Deployment started for PR! Access it at ${url}`;
 const closeMessage = "This PR has been closed without merging.";
 
+// Helper function to deploy container
+async function deployContainer(owner, repo, prNumber) {
+  return new Promise((resolve, reject) => {
+    const containerName = `pr-${prNumber}-${repo}`;
+    const buildCommand = `docker build -t ${containerName} .`;
+    const runCommand = `docker run -d -p 5000:5000 --name ${containerName} ${containerName}`;
+
+    exec(`${buildCommand} && ${runCommand}`, (error, stdout, stderr) => {
+      if (error) {
+        reject(`Error: ${stderr}`);
+      } else {
+        const url = `http://localhost:5000`; // Local deployment URL
+        resolve(url);
+      }
+    });
+  });
+}
+
+// Helper function to clean up container
+async function cleanupContainer(owner, repo, prNumber) {
+  return new Promise((resolve, reject) => {
+    const containerName = `pr-${prNumber}-${repo}`;
+    exec(`docker ps -aq -f name=${containerName}`, (error, stdout, stderr) => {
+      if (error) {
+        reject(`Error: ${stderr}`);
+      } else if (!stdout.trim()) {
+        resolve(`No such container: ${containerName}`);
+      } else {
+        exec(`docker stop ${containerName} && docker rm ${containerName}`, (stopError, stopStdout, stopStderr) => {
+          if (stopError) {
+            reject(`Error: ${stopStderr}`);
+          } else {
+            resolve(`Cleaned up ${containerName}`);
+          }
+        });
+      }
+    });
+  });
+}
+
 // Handle pull request opened event
 async function handlePullRequestOpened({ octokit, payload }) {
   console.log(`Received a pull request event for #${payload.pull_request.number}`);
 
   try {
+    const url = await deployContainer(payload.repository.owner.login, payload.repository.name, payload.pull_request.number);
     await octokit.request("POST /repos/{owner}/{repo}/issues/{issue_number}/comments", {
       owner: payload.repository.owner.login,
       repo: payload.repository.name,
       issue_number: payload.pull_request.number,
-      body: welcomeMessage,
+      body: `${welcomeMessage}\n${deploymentMessage(url)}`,
       headers: {
         "x-github-api-version": "2022-11-28",
       },
@@ -47,46 +88,26 @@ async function handlePullRequestOpened({ octokit, payload }) {
   }
 }
 
-// Handle pull request closed (merged) event
+// Handle pull request closed (merged or unmerged) event
 async function handlePullRequestClosed({ octokit, payload }) {
-  if (payload.pull_request.merged) {
-    console.log(`Received a pull request merged event for #${payload.pull_request.number}`);
+  console.log(`Received a pull request closed event for #${payload.pull_request.number}`);
 
-    try {
-      await octokit.request("POST /repos/{owner}/{repo}/issues/{issue_number}/comments", {
-        owner: payload.repository.owner.login,
-        repo: payload.repository.name,
-        issue_number: payload.pull_request.number,
-        body: deploymentMessage(deploymentUrl),
-        headers: {
-          "x-github-api-version": "2022-11-28",
-        },
-      });
-    } catch (error) {
-      if (error.response) {
-        console.error(`Error! Status: ${error.response.status}. Message: ${error.response.data.message}`);
-      }
-      console.error(error);
+  try {
+    await cleanupContainer(payload.repository.owner.login, payload.repository.name, payload.pull_request.number);
+    await octokit.request("POST /repos/{owner}/{repo}/issues/{issue_number}/comments", {
+      owner: payload.repository.owner.login,
+      repo: payload.repository.name,
+      issue_number: payload.pull_request.number,
+      body: closeMessage,
+      headers: {
+        "x-github-api-version": "2022-11-28",
+      },
+    });
+  } catch (error) {
+    if (error.response) {
+      console.error(`Error! Status: ${error.response.status}. Message: ${error.response.data.message}`);
     }
-  } else {
-    console.log(`Received a pull request closed event for #${payload.pull_request.number}`);
-
-    try {
-      await octokit.request("POST /repos/{owner}/{repo}/issues/{issue_number}/comments", {
-        owner: payload.repository.owner.login,
-        repo: payload.repository.name,
-        issue_number: payload.pull_request.number,
-        body: closeMessage,
-        headers: {
-          "x-github-api-version": "2022-11-28",
-        },
-      });
-    } catch (error) {
-      if (error.response) {
-        console.error(`Error! Status: ${error.response.status}. Message: ${error.response.data.message}`);
-      }
-      console.error(error);
-    }
+    console.error(error);
   }
 }
 
