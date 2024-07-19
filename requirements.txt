@@ -1,3 +1,15 @@
 flask
 Flask-SQLAlchemy
 flask-login
+blinker
+click
+Flask-SQLAlchemy
+greenlet
+gunicorn
+itsdangerous
+Jinja2
+MarkupSafe
+packaging
+SQLAlchemy
+typing_extensions
+Werkzeug
