@@ -1,0 +1,17 @@
+{
+  "name": "flask-github-webhook",
+  "version": "1.0.0",
+  "description": "A Flask application to handle GitHub webhooks.",
+  "main": "app.py",
+  "scripts": {
+    "start": "python app.py",
+    "smee": "smee -u https://smee.io/i3bPvjyqNKSuhQob -t http://localhost:5000/github -p /github"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "smee-client": "^1.0.0"
+  }
+}
+
