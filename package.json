@@ -1,0 +1,26 @@
+{
+  "name": "flask-example-3",
+  "version": "1.0.0",
+  "description": "## Setup & Installation",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Jothamcloud/flask-example-3.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Jothamcloud/flask-example-3/issues"
+  },
+  "homepage": "https://github.com/Jothamcloud/flask-example-3#readme",
+  "dependencies": {
+    "@octokit/rest": "^21.0.1",
+    "dotenv": "^16.4.5",
+    "ngrok": "^5.0.0-beta.2",
+    "probot": "^13.3.6"
+  }
+}

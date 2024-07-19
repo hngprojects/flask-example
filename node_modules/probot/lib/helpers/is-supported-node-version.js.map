@@ -1,0 +1,1 @@
+{"version":3,"file":"is-supported-node-version.js","sourceRoot":"","sources":["../../src/helpers/is-supported-node-version.ts"],"names":[],"mappings":";;AAAA,wDAEC;AAFD,SAAgB,sBAAsB,CAAC,WAAW,GAAG,OAAO,CAAC,QAAQ,CAAC,IAAI;IACxE,OAAO,MAAM,CAAC,WAAW,CAAC,KAAK,CAAC,GAAG,EAAE,EAAE,CAAC,CAAC,CAAC,CAAC,CAAC,IAAI,EAAE,CAAC;AACrD,CAAC"}
