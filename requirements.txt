@@ -1,3 +1,6 @@
 flask
 Flask-SQLAlchemy
 flask-login
+PyGithub
+python-dotenv
+

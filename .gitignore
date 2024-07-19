@@ -1,3 +1,91 @@
 .vscode
 website/__pycache__
 website/database.db
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environment
+venv/
+ENV/
+env/
+.venv/
+
+# Docker files
+*.log
+docker-compose.yml
+.Dockerfile.swp
+
+# Flask settings
+instance/
+.webassets-cache
+
+# Environment variables
+.env
+.venv/
+.venv.bak/
+venv.bak/
+
+# Python egg files
+*.egg
+*.egg-info/
+dist/
+build/
+eggs/
+parts/
+var/
+wheels/
+share/python-wheels/
+*.manifest
+*.spec
+
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.coverage
+coverage.xml
+*,cover
+.hypothesis/
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# PyCharm
+.idea/
+*.iml
+
+# VS Code
+.vscode/
+
+# macOS
+.DS_Store
+
+# pyenv
+.python-version
+
+# dotenv
+.env
+
+# Sublime Text
+*.sublime-workspace
+
+# MyPy
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# Pyre type checker
+.pyre/
+
+# PDM
+__pypackages__/
+
+# User-specific files
+*.swp
+*~
+.
