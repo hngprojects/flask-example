@@ -1,3 +1,5 @@
 .vscode
 website/__pycache__
 website/database.db
+node_modules
+.env
