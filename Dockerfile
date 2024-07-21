@@ -15,6 +15,9 @@ RUN pip install -r requirements.txt
 COPY . .
 
 
+
+
+
 # expose port
 EXPOSE 5000
 
