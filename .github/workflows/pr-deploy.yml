@@ -7,7 +7,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Pull Request Deploy
-        uses: hngprojects/pr-deploy@main
+        uses: hngprojects/pr-deploy@v1.0.7
         with:
           server_host: ${{ secrets.SERVER_HOST }}
           server_username: ${{ secrets.SERVER_USERNAME }}
