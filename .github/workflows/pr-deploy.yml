@@ -1,13 +1,14 @@
 name: PR Deploy
 on:
-  pull_request
+  pull_request:
+    types: [opened, synchronize, reopened, closed]
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
       - name: Pull Request Deploy
-        uses: hngprojects/pr-deploy@v1.0.1
+        uses: hngprojects/pr-deploy@main
         with:
           server_host: ${{ secrets.SERVER_HOST }}
           server_username: ${{ secrets.SERVER_USERNAME }}
