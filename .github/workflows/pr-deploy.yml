@@ -18,3 +18,6 @@ jobs:
           dockerfile: 'Dockerfile'
           exposed_port: '5000'
           github_token: ${{ secrets.GITHUB_TOKEN }}
+    environment: 
+      name: preview
+      url: https://github.com
