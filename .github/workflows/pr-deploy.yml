@@ -10,6 +10,8 @@ jobs:
       url: ${{ steps.deploy.outputs.preview-url }}
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout to branch
+        uses: actions/checkout@v4
       - id: deploy
         name: Pull Request Deploy
         uses: hngprojects/pr-deploy@dev
