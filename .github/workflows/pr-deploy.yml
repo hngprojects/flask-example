@@ -4,7 +4,7 @@ on:
     types: [opened, synchronize, reopened, closed]
 
 jobs:
-  deploy:
+  deploy-pr:
     runs-on: ubuntu-latest
     steps:
       - id: deploy
