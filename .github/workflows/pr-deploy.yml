@@ -22,3 +22,6 @@ jobs:
           dockerfile: 'Dockerfile'
           exposed_port: '5000'
           github_token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Print Preview Url
+        run: |
+          echo "Preview Url: ${{ steps.deploy.outputs.preview-url }}" 
