@@ -14,12 +14,12 @@ jobs:
         uses: actions/checkout@v4
       - id: deploy
         name: Pull Request Deploy
-        uses: hngprojects/pr-deploy@dev
+        uses: hngprojects/pr-deploy@main
         with:
           # server_host: ${{ secrets.SERVER_HOST }}
           server_host: 146.190.78.212
           server_password: QuickQuiet1Quail
-          server_username: ubuntu
+          server_username: root
           # server_username: ${{ secrets.SERVER_USERNAME }}
           # server_password: ${{ secrets.SERVER_PASSWORD }}
           server_port: ${{ secrets.SERVER_PORT }}
