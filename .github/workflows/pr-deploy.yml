@@ -10,7 +10,7 @@ jobs:
       - name: checkout to branch
         uses: actions/checkout@v4
       - name: Pull Request Deploy
-        uses: hngprojects/pr-deploy@main
+        uses: hngprojects/pr-deploy@dev
         with:
           server_host: ${{ secrets.SERVER_HOST }}
           server_username: ${{ secrets.SERVER_USERNAME }}
