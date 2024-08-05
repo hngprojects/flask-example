@@ -14,13 +14,13 @@ jobs:
         uses: actions/checkout@v4
       - id: deploy
         name: Pull Request Deploy
-        uses: hngprojects/pr-deploy@dev
+        uses: hngprojects/pr-deploy@main
         with:
           server_host: ${{ secrets.SERVER_HOST }}
           server_username: ${{ secrets.SERVER_USERNAME }}
           server_password: ${{ secrets.SERVER_PASSWORD }}
           server_port: ${{ secrets.SERVER_PORT }}
-          comment: false
+          comment: true
           context: '.'
           dockerfile: 'Dockerfile'
           exposed_port: '5000'
